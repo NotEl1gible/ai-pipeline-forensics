@@ -10,8 +10,8 @@ Essentially a mini LangSmith/Braintrust.
 > usually in the *last* step. But the last step failed because an earlier one fed
 > it garbage. This tool blames the **root cause**, not the symptom.
 
+[![ci](https://github.com/NotEl1gible/ai-pipeline-forensics/actions/workflows/ci.yml/badge.svg)](https://github.com/NotEl1gible/ai-pipeline-forensics/actions/workflows/ci.yml)
 ![python](https://img.shields.io/badge/python-3.11%2B-blue)
-![tests](https://img.shields.io/badge/tests-7%20passing-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ---
