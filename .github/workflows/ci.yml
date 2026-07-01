@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: tests + offline demo + replay
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt pytest
+      - name: unit tests
+        run: python -m pytest -q
+      - name: forensics demo (offline, mock — no key)
+        run: python forensics.py demo --provider mock --break llm
+      - name: replay eval dataset (regression)
+        run: python forensics.py replay --provider mock

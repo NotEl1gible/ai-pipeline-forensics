@@ -1,0 +1,3 @@
+{"query": "How do I get a refund for a damaged item?", "break": "retrieve", "expected_culprit": "retrieve"}
+{"query": "How do I get a refund for a damaged item?", "break": "llm", "expected_culprit": "llm_answer"}
+{"query": "How do I get a refund for a damaged item?", "break": "parse", "expected_culprit": "parse_json"}

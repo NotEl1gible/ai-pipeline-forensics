@@ -1,0 +1,16 @@
+# local-only notes — never pushed
+*.local.md
+
+# secrets
+.env
+*.key
+
+# runtime artifacts
+*.db
+traces/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
