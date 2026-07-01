@@ -158,13 +158,23 @@ def _call_claude(query, docs):
 
 
 def run_pipeline(tracer, query, docs, provider="mock", break_step=None):
+    """Run the pipeline. Any step may fail (incl. real provider/infra errors); each
+    failure is captured on its span, and the run continues so the localizer can
+    point at it — a forensics tool must never crash on the failure it is tracing."""
     with tracer.span("pipeline", query=query) as root:
-        hits = retrieve(tracer, query, docs, broken=(break_step == "retrieve"))
-        draft = llm_answer(tracer, query, hits, provider, broken=(break_step == "llm"))
+        hits, draft, result = [], "", None
+        try:
+            hits = retrieve(tracer, query, docs, broken=(break_step == "retrieve"))
+        except Exception:
+            pass
+        try:
+            draft = llm_answer(tracer, query, hits, provider, broken=(break_step == "llm"))
+        except Exception:
+            pass
         try:
             result = parse_json(tracer, draft, broken=(break_step == "parse"))
         except Exception:
-            result = None                # keep the run alive so we can localize
+            pass
         root.output = result
         return result
 
