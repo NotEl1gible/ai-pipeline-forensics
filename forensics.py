@@ -140,7 +140,10 @@ def parse_json(tracer, draft, broken=False):
     with tracer.span("parse_json", draft=draft[:80]) as sp:
         if broken:
             raise ValueError("forced parse failure")
-        obj = json.loads(draft)          # raises if draft is prose -> span recorded as error
+        text = draft.strip()
+        if text.startswith("```"):        # strip markdown code fences LLMs often add
+            text = re.sub(r"^```[a-zA-Z]*\s*|\s*```$", "", text).strip()
+        obj = json.loads(text)            # raises if it's prose -> span recorded as error
         sp.output = obj
         return obj
 
